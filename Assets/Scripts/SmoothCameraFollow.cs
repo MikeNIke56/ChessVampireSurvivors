@@ -19,6 +19,5 @@ public class SmoothCameraFollow : MonoBehaviour
     void FixedUpdate()
     {
         transform.position = Vector3.Lerp(transform.position, target.position - offset, speed * Time.deltaTime);
-        Debug.Log(transform.position);
     }
 }

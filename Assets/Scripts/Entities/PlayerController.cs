@@ -2,6 +2,9 @@ using UnityEngine;
 using Terresquall;
 using UnityEngine.InputSystem;
 
+/**
+* player driver script
+*/
 public class PlayerController : EntityBaseClass
 {
     //input Action Variables
@@ -9,12 +12,21 @@ public class PlayerController : EntityBaseClass
     private InputAction moveAction;
     private InputAction shootAction;
     private InputAction dodgeAction;
+    private InputAction lookAction;
 
+    //input vector
     private Vector2 moveVal;
 
     [Header("Dodge Variables")]
     public float dodgePower;
     public float dodgeDecaySpeed;
+
+    //player's current primary weapon
+    private WeaponBaseClass primaryWeapon;
+    public GameObject primaryWeaponGameObject;
+
+    //primary weapon pivot
+    public WeaponPivotPoint weaponPivotPoint;
 
 
     private void OnEnable()
@@ -32,12 +44,20 @@ public class PlayerController : EntityBaseClass
         moveAction = InputSystem.actions.FindAction("Move");
         shootAction = InputSystem.actions.FindAction("Shoot");
         dodgeAction = InputSystem.actions.FindAction("Dodge");
+        lookAction = InputSystem.actions.FindAction("Look");
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        //load in and equip our weapon
+        GameObject primaryWeaponGameObjectCopy = Instantiate<GameObject>(primaryWeaponGameObject, 
+            weaponPivotPoint.transform);
+
+        primaryWeapon = primaryWeaponGameObjectCopy.GetComponent<WeaponBaseClass>();
+        primaryWeapon.SetUp();
     }
 
     // Update is called once per frame
@@ -46,13 +66,11 @@ public class PlayerController : EntityBaseClass
         moveVal = moveAction.ReadValue<Vector2>();
 
         if (shootAction.WasPressedThisFrame())
-        {
             Shoot();
-        }
         if (dodgeAction.WasPressedThisFrame() && !currentStates.Contains(EntityState.Dodging))
-        {
             Dodge();
-        }
+
+        Look();
     }
 
     void FixedUpdate()
@@ -83,21 +101,28 @@ public class PlayerController : EntityBaseClass
         rb.linearVelocity = inputVelocity;
     }
 
+    public void Look()
+    {
+        //get the current mouse position in screen pixels
+        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+
+        if (weaponPivotPoint)
+            weaponPivotPoint.LookAtMouse(mousePosition);
+    }
+
     public void Dodge()
     {
         if (!currentStates.Contains(EntityState.Dodging))
         {
             currentStates.Add(EntityState.Dodging);
-            //Vector2 direction = rb.linearVelocity.normalized;
-            //Debug.DrawRay(rb.position, direction, Color.red, 2f);
             rb.linearVelocity = moveVal * dodgePower;
-            Debug.Log("dodge");
         }
     }
 
 
     public void Shoot()
     {
-        Debug.Log("shoot");
+        if (primaryWeapon)
+            primaryWeapon.Fire();
     }
 }
