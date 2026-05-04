@@ -1,12 +1,26 @@
 using UnityEngine;
 using Terresquall;
 using UnityEngine.InputSystem;
+using System.Collections;
+using System.Collections.Generic;
 
 /**
 * player driver script
 */
 public class PlayerController : EntityBaseClass
 {
+    public enum PlayerStates
+    {
+        Walking,
+        Shooting,
+        Death,
+        Dodging
+    }
+    [SerializeField] protected List<PlayerStates> currentPlayerStates;
+
+
+    [SerializeField] protected CircleCollider2D hitbox;
+
     //input Action Variables
     public InputActionAsset inputActions;
     private InputAction moveAction;
@@ -20,6 +34,8 @@ public class PlayerController : EntityBaseClass
     [Header("Dodge Variables")]
     public float dodgePower;
     public float dodgeDecaySpeed;
+    private float dodgeHitboxSize = .25f;
+    private float baseHitboxSize;
 
     //player's current primary weapon
     private WeaponBaseClass primaryWeapon;
@@ -51,13 +67,14 @@ public class PlayerController : EntityBaseClass
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        baseHitboxSize = hitbox.radius;
+        curHealth = maxHealth;
 
         //load in and equip our weapon
         GameObject primaryWeaponGameObjectCopy = Instantiate<GameObject>(primaryWeaponGameObject, 
             weaponPivotPoint.transform);
 
         primaryWeapon = primaryWeaponGameObjectCopy.GetComponent<WeaponBaseClass>();
-        primaryWeapon.SetUp();
     }
 
     // Update is called once per frame
@@ -65,9 +82,15 @@ public class PlayerController : EntityBaseClass
     {
         moveVal = moveAction.ReadValue<Vector2>();
 
+        if (moveVal.sqrMagnitude > 0 && !currentPlayerStates.Contains(PlayerStates.Walking))
+            currentPlayerStates.Add(PlayerStates.Walking);
+        else if(moveVal.sqrMagnitude < .001f && currentPlayerStates.Contains(PlayerStates.Walking))
+            currentPlayerStates.Remove(PlayerStates.Walking);
+
         if (shootAction.WasPressedThisFrame())
             Shoot();
-        if (dodgeAction.WasPressedThisFrame() && !currentStates.Contains(EntityState.Dodging))
+        if (dodgeAction.WasPressedThisFrame() && !currentPlayerStates.Contains(PlayerStates.Dodging) &&
+            moveVal.sqrMagnitude > 0)
             Dodge();
 
         Look();
@@ -78,7 +101,7 @@ public class PlayerController : EntityBaseClass
         //inputVelocity is our current move direction * our speed
         Vector2 inputVelocity = moveVal * moveSpeed;
 
-        if (currentStates.Contains(EntityState.Dodging))
+        if (currentPlayerStates.Contains(PlayerStates.Dodging))
         {
             //we take the magnitude of our current velocity squared, not squaring is more expensive
             float sqrMagnitude = rb.linearVelocity.sqrMagnitude;
@@ -91,7 +114,8 @@ public class PlayerController : EntityBaseClass
                 rb.linearVelocity -= dodgeDecaySpeed * Time.fixedDeltaTime * rb.linearVelocity.normalized;
                 return;
             }
-            currentStates.Remove(EntityState.Dodging);
+            currentPlayerStates.Remove(PlayerStates.Dodging);
+            hitbox.radius = baseHitboxSize;
         }
         Move(inputVelocity);
     }
@@ -112,17 +136,48 @@ public class PlayerController : EntityBaseClass
 
     public void Dodge()
     {
-        if (!currentStates.Contains(EntityState.Dodging))
+        if (!currentPlayerStates.Contains(PlayerStates.Dodging))
         {
-            currentStates.Add(EntityState.Dodging);
+            currentPlayerStates.Add(PlayerStates.Dodging);
+            hitbox.radius = dodgeHitboxSize;
             rb.linearVelocity = moveVal * dodgePower;
         }
     }
 
-
     public void Shoot()
     {
-        if (primaryWeapon)
+        if (primaryWeapon && primaryWeapon.canFire == true)
+        {
             primaryWeapon.Fire();
+            StartCoroutine(StartFireCooldown());
+        }
+    }
+
+    private IEnumerator StartFireCooldown()
+    {
+        currentPlayerStates.Add(PlayerStates.Shooting);
+        primaryWeapon.canFire = false;
+
+        yield return new WaitForSecondsRealtime(primaryWeapon.fireCooldown);
+
+        primaryWeapon.canFire = true;
+        currentPlayerStates.Remove(PlayerStates.Shooting);
+    }
+
+    public override void TakeDamage(float damage)
+    {
+        float calculatedDamage = Mathf.Clamp(damage - defense, 1, damage);
+        curHealth -= calculatedDamage;
+        Debug.Log(curHealth);
+
+        if (curHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    public override void Die()
+    {
+        Debug.Log("player died");
     }
 }

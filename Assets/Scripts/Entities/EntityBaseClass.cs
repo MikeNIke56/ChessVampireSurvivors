@@ -3,26 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EntityBaseClass : MonoBehaviour
+/**
+* base class for all entities
+*/
+public class EntityBaseClass : MonoBehaviour, IDamageable
 {
-    public enum EntityState
-    {
-        Walking,
-        Shooting,
-        Death,
-        Dodging,
-        OnCooldown
-    }
-
     [Header("Base Variables")]
-    [SerializeField] protected List<EntityState> currentStates;
-    protected Rigidbody2D rb;
-    [SerializeField] protected float attack;
     [SerializeField] protected float defense;
-    private float curHealth;
     [SerializeField] protected float maxHealth;
     [SerializeField] protected float moveSpeed;
-    [SerializeField] protected float attackSpeed;
+
+    protected float curHealth;
+    protected Rigidbody2D rb;
+
 
     protected void LookAt(Vector3 target)
     {
@@ -37,4 +30,27 @@ public class EntityBaseClass : MonoBehaviour
     {
         return Mathf.Atan2(point1.y - point2.y, point1.x - point2.x) * Mathf.Rad2Deg;
     }
+
+    public float GetHealth()
+    {
+        return curHealth;
+    }
+
+    public virtual void TakeDamage(float damage)
+    {
+
+    }
+
+    public virtual void Die()
+    {
+
+    }
+}
+
+/**
+ * the interface for entities to take damage
+ */
+public interface IDamageable
+{
+    void TakeDamage(float damage);
 }

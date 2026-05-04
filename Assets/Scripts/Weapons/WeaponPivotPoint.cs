@@ -9,6 +9,8 @@ public class WeaponPivotPoint : MonoBehaviour
     [Header("Primary Weapon Variables")]
     private WeaponBaseClass primaryWeapon;
 
+    private float gunFlipSpeed = 12f;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -36,10 +38,11 @@ public class WeaponPivotPoint : MonoBehaviour
         //flip the gun sprite when aiming left
         Vector3 gunScale = transform.localScale;
 
+        //smoothly flip on y axis
         if (transform.eulerAngles.z < 90f || transform.eulerAngles.z > 270f)
-            gunScale.y = 1f; 
+            gunScale.y = Mathf.Lerp(gunScale.y, 1f, gunFlipSpeed * Time.deltaTime);
         else
-            gunScale.y = -1f; //flip vertically
+            gunScale.y = Mathf.Lerp(gunScale.y, -1f, gunFlipSpeed * Time.deltaTime); 
 
         transform.localScale = gunScale;
     }
