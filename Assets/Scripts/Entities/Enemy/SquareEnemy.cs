@@ -2,8 +2,9 @@ using UnityEngine;
 
 public class SquareEnemy : EnemyBaseClass
 {
-    private void Start()
+    public override void Setup(PlayerController player)
     {
+        base.Setup(player);
         currentEnemyStates.Add(EnemyStates.Chasing);
     }
 

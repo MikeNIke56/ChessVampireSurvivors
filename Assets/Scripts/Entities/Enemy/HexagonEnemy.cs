@@ -2,14 +2,53 @@ using UnityEngine;
 
 public class HexagonEnemy : EnemyBaseClass
 {
+    public float rotateSpeed;
+    public Transform[] firepoints;
+
+    //each weapon's respective bullet object
+    public GameObject bulletObj;
+
+    public override void Setup(PlayerController player)
+    {
+        base.Setup(player);
+        currentEnemyStates.Add(EnemyStates.Chasing);
+        currentEnemyStates.Add(EnemyStates.Shooting);
+    }
+
     public override void RunBehavior()
     {
-        
+        base.RunBehavior();
+
+        if (currentEnemyStates.Contains(EnemyStates.Shooting) &&
+            !currentEnemyStates.Contains(EnemyStates.ProjectileAttackCooldown))
+        {
+            currentEnemyStates.Add(EnemyStates.ProjectileAttackCooldown);
+            foreach (Transform firepoint in firepoints)
+               Shoot(firepoint);   
+        }
     }
 
     public override void HandleMovement()
     {
-        base.HandleMovement();
-        ChasePlayer();
+        ContinuouslyRotate();
+    }
+
+    private void ContinuouslyRotate()
+    {
+        Vector3 newRotation = transform.eulerAngles;
+        newRotation.z += Time.fixedDeltaTime * rotateSpeed;
+        transform.eulerAngles = newRotation;
+    }
+
+    protected override void Shoot(Transform firepoint)
+    {
+        //loads in and fires bullet
+        GameObject bulletObjCopy = Instantiate<GameObject>(bulletObj, firepoint.position, firepoint.localRotation);
+
+        //sets the speed and damage of the bullet
+        ProjectileBaseClass projectile = bulletObjCopy.GetComponent<ProjectileBaseClass>();
+        projectile.SetDamage(projectileAttack);
+        Vector3 force = firepoint.right * projectile.GetSpeed();
+        projectile.GetRigidbody().AddForce(force, ForceMode2D.Impulse);
     }
 }

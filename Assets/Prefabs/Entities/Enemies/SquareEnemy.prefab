@@ -111,9 +111,14 @@ MonoBehaviour:
   maxHealth: 10
   moveSpeed: 125
   currentEnemyStates: 
-  attack: 10
+  collisionAttack: 10
+  projectileAttack: 0
   hitbox: {fileID: 1936225779783018288}
-  maxAttackCooldown: 0.75
+  maxCollisionAttackCooldown: 0.75
+  maxProjectileCooldown: 0
+  percentChanceToSpawn: 35
+  lowerChance: 0
+  upperChance: 35
   bodyCollisionTargetLayers:
     serializedVersion: 2
     m_Bits: 64

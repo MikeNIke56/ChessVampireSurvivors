@@ -16,11 +16,10 @@ public class EntityBaseClass : MonoBehaviour, IDamageable
     protected float curHealth;
     protected Rigidbody2D rb;
 
-
-    protected void LookAt(Vector3 target)
+    protected void LookAt(Vector3 target, float offset)
     {
         //find angle between the player and target
-        float lookAngle = AngleBetweenTwoPoints(transform.position, target) + 180;
+        float lookAngle = AngleBetweenTwoPoints(transform.position, target) + offset;
 
         //apply target rotation on the z axis
         transform.eulerAngles = new Vector3(0, 0, lookAngle);

@@ -137,7 +137,7 @@ CapsuleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 384
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -170,7 +170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a99b2d51f3c0c9c43ad54c4e6a84c17d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HexagonBullet
-  speed: 10
+  speed: 3
   targetLayers:
     serializedVersion: 2
     m_Bits: 64

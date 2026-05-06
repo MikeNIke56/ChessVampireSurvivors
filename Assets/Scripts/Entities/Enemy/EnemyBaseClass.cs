@@ -13,16 +13,26 @@ public class EnemyBaseClass : EntityBaseClass
         Shooting,
         Death,
         Dodging,
-        CollisionAttackCooldown
+        CollisionAttackCooldown,
+        ProjectileAttackCooldown,
+        Retreating,
+        Charging,
+        ChargingAttackCooldown
     }
 
     [Header("Enemy Base Variables")]
     [SerializeField] protected List<EnemyStates> currentEnemyStates;
-    [SerializeField] protected float attack;
+    [SerializeField] protected float collisionAttack;
+    [SerializeField] protected float projectileAttack;
     [SerializeField] protected Collider2D hitbox;
-    [SerializeField] protected float maxAttackCooldown;
+    [SerializeField] protected float maxCollisionAttackCooldown;
+    [SerializeField] protected float maxProjectileCooldown;
+    [SerializeField] protected int percentChanceToSpawn;
+    [SerializeField] protected int lowerChance;
+    [SerializeField] protected int upperChance;
 
-    private float curAttackCooldown;
+    private float curCollisionAttackCooldown;
+    private float curProjectileCooldown;
 
 
     //the layers of objects this object is allowed to apply physics to
@@ -30,15 +40,11 @@ public class EnemyBaseClass : EntityBaseClass
 
     protected PlayerController player;
 
-    private void Start()
-    {
-
-    }
-
     public virtual void Setup(PlayerController player)
     {
         curHealth = maxHealth;
-        curAttackCooldown = maxAttackCooldown;
+        curCollisionAttackCooldown = maxCollisionAttackCooldown;
+        curProjectileCooldown = maxProjectileCooldown;
         this.player = player;
         rb = GetComponent<Rigidbody2D>();
     }
@@ -48,20 +54,34 @@ public class EnemyBaseClass : EntityBaseClass
         if(currentEnemyStates.Contains(EnemyStates.CollisionAttackCooldown))
         {
             ReduceCollisionAttackCooldown();
-        }   
+        }
+        if (currentEnemyStates.Contains(EnemyStates.ProjectileAttackCooldown))
+        {
+            ReduceProjectileAttackCooldown();
+        }
     }
 
     public virtual void HandleMovement()
     {
     }
 
-    protected void ChasePlayer()
+    protected virtual void ChasePlayer()
     {
         if(player && rb)
         {
-            LookAt(player.transform.position);
+            LookAt(player.transform.position, 180);
             rb.linearVelocity = moveSpeed * Time.fixedDeltaTime * transform.right;
         }
+    }
+
+    protected virtual void Shoot()
+    {
+        
+    }
+
+    protected virtual void Shoot(Transform firepoint)
+    {
+
     }
 
     public override void TakeDamage(float damage)
@@ -99,7 +119,7 @@ public class EnemyBaseClass : EntityBaseClass
                 if (entity.TryGetComponent(out IDamageable myInterface))
                 {
                     //cause damage
-                    entity.GetComponent<EntityBaseClass>().TakeDamage(attack);
+                    entity.GetComponent<EntityBaseClass>().TakeDamage(collisionAttack);
                     currentEnemyStates.Add(EnemyStates.CollisionAttackCooldown);
                 }
 
@@ -120,7 +140,7 @@ public class EnemyBaseClass : EntityBaseClass
                 if (entity.TryGetComponent(out IDamageable myInterface))
                 {
                     //cause damage
-                    entity.GetComponent<EntityBaseClass>().TakeDamage(attack);
+                    entity.GetComponent<EntityBaseClass>().TakeDamage(collisionAttack);
                     currentEnemyStates.Add(EnemyStates.CollisionAttackCooldown);
                 }
 
@@ -137,16 +157,56 @@ public class EnemyBaseClass : EntityBaseClass
     }
 
     /**
-     * checks if object's layermask matches the one being checked
+     * prevents continuous collision detection
      */
     private void ReduceCollisionAttackCooldown()
     {
-        curAttackCooldown -= Time.deltaTime;
+        curCollisionAttackCooldown -= Time.deltaTime;
 
-        if (curAttackCooldown <= 0)
+        if (curCollisionAttackCooldown <= 0)
         {
             currentEnemyStates.Remove(EnemyStates.CollisionAttackCooldown);
-            curAttackCooldown = maxAttackCooldown;
+            curCollisionAttackCooldown = maxCollisionAttackCooldown;
         }
+    }
+
+    /**
+     * acts as the fire rate of enemies that shoot
+     */
+    protected void ReduceProjectileAttackCooldown()
+    {
+        curProjectileCooldown -= Time.deltaTime;
+
+        if (curProjectileCooldown <= 0)
+        {
+            currentEnemyStates.Remove(EnemyStates.ProjectileAttackCooldown);
+            curProjectileCooldown = maxProjectileCooldown;
+        }
+    }
+
+    public int GetChanceToSpawn()
+    {
+        return percentChanceToSpawn;
+    }
+    public int GetLowerChance()
+    {
+        return lowerChance;
+    }
+    public int GetUpperChance()
+    {
+        return upperChance;
+    }
+
+    public void SetLowerChance(int chance)
+    {
+        this.lowerChance = chance;
+    }
+    public void SetUpperChance(int chance)
+    {
+        this.upperChance = chance;
+    }
+    public void SetPercentChanceToSpawn(int chance)
+    {
+        this.lowerChance = chance;
     }
 }

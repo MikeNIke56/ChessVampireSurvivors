@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Principal;
+using System.Linq;
 using UnityEngine;
 
 /**
@@ -9,7 +10,7 @@ using UnityEngine;
 public class EnemyManager : MonoBehaviour
 {
     [Header("Enemy Spawn Variables")]
-    public List<GameObject> enemyGameObjectList;
+    public List<EnemyBaseClass> enemySpawnList;
     [SerializeField] protected int maxNumOfEnemies;
     public float spawnDelay;
     public float minSpawnDistance;
@@ -25,6 +26,17 @@ public class EnemyManager : MonoBehaviour
     void Start()
     {
         player = FindAnyObjectByType<PlayerController>();
+
+        int totalChance = 0;
+
+        foreach (EnemyBaseClass record in enemySpawnList)
+        {
+            record.SetLowerChance(totalChance);
+            record.SetUpperChance(totalChance + record.GetChanceToSpawn());
+
+            totalChance = totalChance + record.GetChanceToSpawn();
+        }
+
         StartCoroutine(SpawnInEnemies());
     }
 
@@ -80,7 +92,11 @@ public class EnemyManager : MonoBehaviour
     {
         while (enemyList.Count < maxNumOfEnemies)
         {
-            GameObject enemyGameObjectCopy = Instantiate<GameObject>(enemyGameObjectList[0],
+            int randVal = Random.Range(0, 101);
+            EnemyBaseClass enemyRecorded = enemySpawnList.First(p => randVal >= p.GetLowerChance() && randVal 
+            <= p.GetUpperChance());
+
+            GameObject enemyGameObjectCopy = Instantiate<GameObject>(enemyRecorded.gameObject,
             FindRandomSpawnPoint(), Quaternion.identity);
 
             EnemyBaseClass enemy = enemyGameObjectCopy.GetComponent<EnemyBaseClass>();
@@ -113,4 +129,3 @@ public class EnemyManager : MonoBehaviour
         return randSpawnPoint;
     }
 }
-

@@ -33,7 +33,8 @@ Transform:
   m_LocalPosition: {x: 5.0173, y: -2.10946, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 3378122581591987290}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6692533821525028151
@@ -121,7 +122,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!60 &8669180622835343222
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -220,13 +221,54 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d84a39b4c324ec14391365db7dbc2427, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TriangleEnemy
-  defense: 0
-  maxHealth: 0
-  moveSpeed: 0
+  defense: 3
+  maxHealth: 12
+  moveSpeed: 55
   currentEnemyStates: 
-  attack: 0
+  collisionAttack: 12
+  projectileAttack: 25
   hitbox: {fileID: 8669180622835343222}
-  maxAttackCooldown: 0
+  maxCollisionAttackCooldown: 1
+  maxProjectileCooldown: 0.8
+  percentChanceToSpawn: 25
+  lowerChance: 0
+  upperChance: 25
   bodyCollisionTargetLayers:
     serializedVersion: 2
     m_Bits: 64
+  retreatDistance: 5
+  maxChaseDistance: 8
+  offset: -30
+  firepoint: {fileID: 3378122581591987290}
+  bulletObj: {fileID: 6438708033939589405, guid: d7ef182a2adc70a4d8039f0a9091827d, type: 3}
+--- !u!1 &7663584593356375080
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3378122581591987290}
+  m_Layer: 7
+  m_Name: firepoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3378122581591987290
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7663584593356375080}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: -0.9659258, w: 0.2588191}
+  m_LocalPosition: {x: -0.485, y: -0.27, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8117535666475290207}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -150}

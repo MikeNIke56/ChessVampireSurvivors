@@ -226,13 +226,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36a062b9b42ad4e4492c14dbb9392e0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DiamondEnemy
-  defense: 0
-  maxHealth: 0
-  moveSpeed: 0
+  defense: 15
+  maxHealth: 25
+  moveSpeed: 150
   currentEnemyStates: 
-  attack: 0
+  collisionAttack: 20
+  projectileAttack: 0
   hitbox: {fileID: 8853973773096178335}
-  maxAttackCooldown: 0
+  maxCollisionAttackCooldown: 0.5
+  maxProjectileCooldown: 0
+  percentChanceToSpawn: 25
+  lowerChance: 0
+  upperChance: 25
   bodyCollisionTargetLayers:
     serializedVersion: 2
     m_Bits: 64
+  maxChaseDistance: 6
+  chargeAttackTime: 1.5
+  chargeAttackCooldown: 2.5
+  chargePower: 15
