@@ -44,7 +44,8 @@ public class WeaponBaseClass : MonoBehaviour
     public virtual void Fire()
     {
         //loads in and fires bullet
-        GameObject bulletObjCopy = Instantiate<GameObject>(bulletObj, fireOffset.position, fireOffset.rotation);
+        GameObject bulletObjCopy = ObjectPoolingManager.SpawnObject(bulletObj, fireOffset.position, 
+            fireOffset.rotation, ObjectPoolingManager.PoolType.Bullet);
 
         //sets the speed and damage of the bullet
         ProjectileBaseClass projectile = bulletObjCopy.GetComponent<ProjectileBaseClass>();

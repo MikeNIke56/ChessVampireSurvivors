@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 7807833124782753416}
   - component: {fileID: 2273058456616825888}
   - component: {fileID: 8853973773096178335}
-  - component: {fileID: 3018633088430997582}
   - component: {fileID: 5834869345390441621}
   m_Layer: 7
   m_Name: DiamondEnemy
@@ -178,42 +177,6 @@ PolygonCollider2D:
       - {x: 0.5070782, y: 0.0014679432}
       - {x: -0.0022425652, y: 0.25707853}
   m_UseDelaunayMesh: 1
---- !u!58 &3018633088430997582
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3472265151454298883}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 320
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 0.2
 --- !u!114 &5834869345390441621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,7 +189,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36a062b9b42ad4e4492c14dbb9392e0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DiamondEnemy
-  defense: 15
   maxHealth: 25
   moveSpeed: 150
   currentEnemyStates: 
@@ -236,8 +198,8 @@ MonoBehaviour:
   maxCollisionAttackCooldown: 0.5
   maxProjectileCooldown: 0
   percentChanceToSpawn: 25
-  lowerChance: 0
-  upperChance: 25
+  lowerChance: 35
+  upperChance: 60
   bodyCollisionTargetLayers:
     serializedVersion: 2
     m_Bits: 64

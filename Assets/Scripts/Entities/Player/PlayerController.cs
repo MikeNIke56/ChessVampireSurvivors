@@ -37,6 +37,10 @@ public class PlayerController : EntityBaseClass
     private float dodgeHitboxSize = .25f;
     private float baseHitboxSize;
 
+    private float curHealthRegenTime;
+    [SerializeField] protected float maxHealthRegenTime;
+    [SerializeField] protected float healthRegenSpeed;
+
     //player's current primary weapon
     private WeaponBaseClass primaryWeapon;
     public GameObject primaryWeaponGameObject;
@@ -69,6 +73,7 @@ public class PlayerController : EntityBaseClass
         rb = GetComponent<Rigidbody2D>();
         baseHitboxSize = hitbox.radius;
         curHealth = maxHealth;
+        curHealthRegenTime = maxHealthRegenTime;
 
         //load in and equip our weapon
         GameObject primaryWeaponGameObjectCopy = Instantiate<GameObject>(primaryWeaponGameObject, 
@@ -94,6 +99,9 @@ public class PlayerController : EntityBaseClass
             Dodge();
 
         Look();
+
+        if(curHealth < maxHealth)
+            HandleHealthRegen();
     }
 
     void FixedUpdate()
@@ -164,10 +172,31 @@ public class PlayerController : EntityBaseClass
         currentPlayerStates.Remove(PlayerStates.Shooting);
     }
 
+    /**
+     * will start health regening after we stop taking damage 
+     * for a specified amount of time
+     */
+    private void HandleHealthRegen()
+    {
+        curHealthRegenTime -= Time.deltaTime;
+
+        if(curHealthRegenTime <= 0)
+        {
+            curHealth += Time.deltaTime * healthRegenSpeed;
+
+            if (curHealth >= maxHealth)
+                curHealthRegenTime = maxHealthRegenTime;
+
+            if (curHealthRegenTime <= -10)
+                curHealthRegenTime = -.01f;
+        }
+    }
+
     public override void TakeDamage(float damage)
     {
-        float calculatedDamage = Mathf.Clamp(damage - defense, 1, damage);
-        curHealth -= calculatedDamage;
+        //float calculatedDamage = Mathf.Clamp(damage - defense, 1, damage);
+        curHealth -= damage;
+        curHealthRegenTime = maxHealthRegenTime;
         Debug.Log(curHealth);
 
         if (curHealth <= 0)

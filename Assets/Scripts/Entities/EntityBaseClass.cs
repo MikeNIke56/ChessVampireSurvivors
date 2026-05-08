@@ -9,7 +9,6 @@ using UnityEngine;
 public class EntityBaseClass : MonoBehaviour, IDamageable
 {
     [Header("Base Variables")]
-    [SerializeField] protected float defense;
     [SerializeField] protected float maxHealth;
     [SerializeField] protected float moveSpeed;
 

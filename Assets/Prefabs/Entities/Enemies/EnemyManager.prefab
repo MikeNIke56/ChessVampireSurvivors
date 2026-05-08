@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8031153493488364347}
   - component: {fileID: 5795892744710236053}
+  - component: {fileID: 3902173331435726466}
   m_Layer: 0
   m_Name: EnemyManager
   m_TagString: Untagged
@@ -44,10 +45,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0b9948a979240f4e9078dc9cb44821c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyManager
-  enemyGameObjectList:
-  - {fileID: 1303850960612926291, guid: 807cb76ea53964046bb92b551c7856a1, type: 3}
-  maxNumOfEnemies: 10
+  enemySpawnList:
+  - {fileID: 8653881431099390299, guid: 807cb76ea53964046bb92b551c7856a1, type: 3}
+  - {fileID: 5834869345390441621, guid: c64c7cc6cb80e1d4d81495c156e61cd6, type: 3}
+  - {fileID: 3320494734956784958, guid: 3748f43cabc17f144b661294a7f62e95, type: 3}
+  - {fileID: 2263690994773135237, guid: 40b8ec2cb98aefb4f8e69036e59d7ca4, type: 3}
+  maxNumOfEnemies: 15
+  maxNumOfEnemiesPerRound: 5
+  curNumOfEnemies: 0
   spawnDelay: 0.5
-  minSpawnDistance: 5
-  maxSpawnDistance: 15
+  minSpawnDistance: 15
+  maxSpawnDistance: 20
+  isNextWaveOnCooldown: 0
+  maxRoundTimer: 10
   enemyList: []
+  separationDistance: 1.35
+  separationStrength: 2.25
+--- !u!114 &3902173331435726466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4973982655233596522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd13ebefc3d36a3449cae8614e10f183, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpatialGrid

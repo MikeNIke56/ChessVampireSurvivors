@@ -30,8 +30,10 @@ public class DiamondEnemy : EnemyBaseClass
                 !currentEnemyStates.Contains(EnemyStates.ChargingAttackCooldown))
             {
                 currentEnemyStates.Add(EnemyStates.Chasing);
-                ChasePlayer();
             }
+
+            if (currentEnemyStates.Contains(EnemyStates.Chasing))
+                ChasePlayer();
         }
         else if(distFromPlayer <= maxChaseDistance)
         {

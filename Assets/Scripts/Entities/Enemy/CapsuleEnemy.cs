@@ -9,7 +9,6 @@ public class CapsuleEnemy : EnemyBaseClass
 
     public override void HandleMovement()
     {
-        base.HandleMovement();
-        ChasePlayer();
+        
     }
 }

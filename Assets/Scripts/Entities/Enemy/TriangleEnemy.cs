@@ -13,6 +13,12 @@ public class TriangleEnemy : EnemyBaseClass
     //each weapon's respective bullet object
     public GameObject bulletObj;
 
+    protected override void OnEnable()
+    {
+        Setup(player);
+        currentEnemyStates.Add(EnemyStates.Shooting);
+    }
+
     public override void Setup(PlayerController player)
     {
         base.Setup(player);
@@ -21,8 +27,6 @@ public class TriangleEnemy : EnemyBaseClass
 
     public override void RunBehavior()
     {
-        base.RunBehavior();
-
         LookAt(player.transform.position, offset);
 
         if (currentEnemyStates.Contains(EnemyStates.Shooting) &&
@@ -35,6 +39,8 @@ public class TriangleEnemy : EnemyBaseClass
 
     public override void HandleMovement()
     {
+        base.HandleMovement();
+
         float distFromPlayer = Vector2.Distance(transform.position, player.transform.position);
 
         //if the player is too far from us, then chase to get within range
@@ -80,7 +86,8 @@ public class TriangleEnemy : EnemyBaseClass
     protected override void Shoot()
     {
         //loads in and fires bullet
-        GameObject bulletObjCopy = Instantiate<GameObject>(bulletObj, firepoint.position, firepoint.rotation);
+        GameObject bulletObjCopy = ObjectPoolingManager.SpawnObject(bulletObj, firepoint.position,
+            firepoint.localRotation, ObjectPoolingManager.PoolType.Bullet);
 
         //sets the speed and damage of the bullet
         ProjectileBaseClass projectile = bulletObjCopy.GetComponent<ProjectileBaseClass>();

@@ -1,3 +1,5 @@
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /**
@@ -9,6 +11,7 @@ public class ProjectileBaseClass : MonoBehaviour
     protected Rigidbody2D rb;
     private float damage;
     [SerializeField] protected float speed;
+    public float lifeTime;
 
     //the layers of objects this object is allowed to apply physics to
     public LayerMask targetLayers;
@@ -17,6 +20,11 @@ public class ProjectileBaseClass : MonoBehaviour
     protected void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+    }
+
+    protected void OnEnable()
+    {
+        StartCoroutine(StartLifetimeCountdown());
     }
 
     protected void OnCollisionEnter2D(Collision2D collision)
@@ -33,6 +41,12 @@ public class ProjectileBaseClass : MonoBehaviour
 
             Destroy(gameObject);
         }
+    }
+
+    private IEnumerator StartLifetimeCountdown()
+    {
+        yield return new WaitForSecondsRealtime(lifeTime);
+        ObjectPoolingManager.ReturnObjectToPool(gameObject, ObjectPoolingManager.PoolType.Bullet);
     }
 
     /**

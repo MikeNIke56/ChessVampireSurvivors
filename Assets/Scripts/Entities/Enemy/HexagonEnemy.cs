@@ -8,6 +8,13 @@ public class HexagonEnemy : EnemyBaseClass
     //each weapon's respective bullet object
     public GameObject bulletObj;
 
+    protected override void OnEnable()
+    {
+        Setup(player);
+        currentEnemyStates.Add(EnemyStates.Chasing);
+        currentEnemyStates.Add(EnemyStates.Shooting);
+    }
+
     public override void Setup(PlayerController player)
     {
         base.Setup(player);
@@ -43,7 +50,8 @@ public class HexagonEnemy : EnemyBaseClass
     protected override void Shoot(Transform firepoint)
     {
         //loads in and fires bullet
-        GameObject bulletObjCopy = Instantiate<GameObject>(bulletObj, firepoint.position, firepoint.localRotation);
+        GameObject bulletObjCopy = ObjectPoolingManager.SpawnObject(bulletObj, firepoint.position,
+            firepoint.localRotation, ObjectPoolingManager.PoolType.Bullet);
 
         //sets the speed and damage of the bullet
         ProjectileBaseClass projectile = bulletObjCopy.GetComponent<ProjectileBaseClass>();

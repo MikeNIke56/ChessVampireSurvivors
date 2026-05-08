@@ -275,16 +275,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a5ba716db68a6340ae28a25918b094e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  attack: 0
-  defense: 5
   maxHealth: 100
   moveSpeed: 5
-  attackSpeed: 0
   currentPlayerStates: 
   hitbox: {fileID: 6118434277873242099}
   inputActions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   dodgePower: 24
   dodgeDecaySpeed: 48
+  maxHealthRegenTime: 5
+  healthRegenSpeed: 1
   primaryWeaponGameObject: {fileID: 3850022347616916355, guid: 8ead973cb23f9c94ca4c5cb2d8560bed, type: 3}
   weaponPivotPoint: {fileID: 2183233569898698503}
 --- !u!222 &1218563828118647351
@@ -561,7 +560,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

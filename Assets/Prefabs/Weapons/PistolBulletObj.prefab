@@ -171,6 +171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PistolBullet
   speed: 15
+  lifeTime: 1.5
   targetLayers:
     serializedVersion: 2
     m_Bits: 128

@@ -34,14 +34,22 @@ public class EnemyBaseClass : EntityBaseClass
     private float curCollisionAttackCooldown;
     private float curProjectileCooldown;
 
+    protected Vector3 separationForce;
+
 
     //the layers of objects this object is allowed to apply physics to
     public LayerMask bodyCollisionTargetLayers;
 
     protected PlayerController player;
 
+    protected virtual void OnEnable()
+    {
+        Setup(player);
+    }
+
     public virtual void Setup(PlayerController player)
     {
+        currentEnemyStates.Clear();
         curHealth = maxHealth;
         curCollisionAttackCooldown = maxCollisionAttackCooldown;
         curProjectileCooldown = maxProjectileCooldown;
@@ -51,18 +59,15 @@ public class EnemyBaseClass : EntityBaseClass
 
     public virtual void RunBehavior()
     {
-        if(currentEnemyStates.Contains(EnemyStates.CollisionAttackCooldown))
-        {
+        if (currentEnemyStates.Contains(EnemyStates.CollisionAttackCooldown))
             ReduceCollisionAttackCooldown();
-        }
         if (currentEnemyStates.Contains(EnemyStates.ProjectileAttackCooldown))
-        {
             ReduceProjectileAttackCooldown();
-        }
     }
 
     public virtual void HandleMovement()
     {
+
     }
 
     protected virtual void ChasePlayer()
@@ -70,7 +75,7 @@ public class EnemyBaseClass : EntityBaseClass
         if(player && rb)
         {
             LookAt(player.transform.position, 180);
-            rb.linearVelocity = moveSpeed * Time.fixedDeltaTime * transform.right;
+            rb.linearVelocity = (moveSpeed * Time.fixedDeltaTime * transform.right) + separationForce;
         }
     }
 
@@ -84,10 +89,18 @@ public class EnemyBaseClass : EntityBaseClass
 
     }
 
+    /*
+     * applies force to itself to space itself from other enemies
+     */
+    public void ApplySeparation(Vector2 force)
+    {
+        separationForce = force;
+    }
+
     public override void TakeDamage(float damage)
     {
-        float calculatedDamage = Mathf.Clamp(damage - defense, 1, damage);
-        curHealth -= calculatedDamage;
+        //float calculatedDamage = Mathf.Clamp(damage - defense, 1, damage);
+        curHealth -= damage;
 
         if (curHealth <= 0)
         {
@@ -98,7 +111,8 @@ public class EnemyBaseClass : EntityBaseClass
     public override void Die()
     {
         Debug.Log(name + " died");
-        Destroy(gameObject);
+        ObjectPoolingManager.ReturnObjectToPool(gameObject, ObjectPoolingManager.PoolType.Enemy);
+        EnemyManager.i.curNumOfEnemies--;
     }
 
     /**
@@ -199,14 +213,14 @@ public class EnemyBaseClass : EntityBaseClass
 
     public void SetLowerChance(int chance)
     {
-        this.lowerChance = chance;
+        lowerChance = chance;
     }
     public void SetUpperChance(int chance)
     {
-        this.upperChance = chance;
+        upperChance = chance;
     }
     public void SetPercentChanceToSpawn(int chance)
     {
-        this.lowerChance = chance;
+        lowerChance = chance;
     }
 }

@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 5206321298265829272}
   - component: {fileID: 3801890815267593202}
   - component: {fileID: 9071434325338325315}
-  - component: {fileID: 3401070198711533779}
   - component: {fileID: 6460031110638802547}
   m_Layer: 7
   m_Name: CapsuleEnemy
@@ -159,43 +158,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 1, y: 2}
   m_Direction: 0
---- !u!70 &3401070198711533779
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8580334849538009347}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 320
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.8, y: 1.65}
-  m_Direction: 0
 --- !u!114 &6460031110638802547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,9 +174,15 @@ MonoBehaviour:
   maxHealth: 0
   moveSpeed: 0
   currentEnemyStates: 
-  attack: 0
+  collisionAttack: 0
+  projectileAttack: 0
   hitbox: {fileID: 9071434325338325315}
-  maxAttackCooldown: 0
+  maxCollisionAttackCooldown: 0
+  maxProjectileCooldown: 0
+  percentChanceToSpawn: 0
+  lowerChance: 0
+  upperChance: 0
+  distanceToCheckForEnemies: 0
   bodyCollisionTargetLayers:
     serializedVersion: 2
     m_Bits: 64

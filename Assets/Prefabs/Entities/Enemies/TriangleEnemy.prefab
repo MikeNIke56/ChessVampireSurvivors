@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 6692533821525028151}
   - component: {fileID: 498178370703658337}
   - component: {fileID: 8669180622835343222}
-  - component: {fileID: 8568600296953015440}
   - component: {fileID: 2263690994773135237}
   m_Layer: 7
   m_Name: TriangleEnemy
@@ -173,42 +172,6 @@ PolygonCollider2D:
       - {x: -0.5, y: -0.28866667}
       - {x: 0.5, y: -0.28866667}
   m_UseDelaunayMesh: 1
---- !u!58 &8568600296953015440
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5003587939532287066}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 320
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 0.25
 --- !u!114 &2263690994773135237
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -221,7 +184,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d84a39b4c324ec14391365db7dbc2427, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TriangleEnemy
-  defense: 3
   maxHealth: 12
   moveSpeed: 55
   currentEnemyStates: 
@@ -231,8 +193,8 @@ MonoBehaviour:
   maxCollisionAttackCooldown: 1
   maxProjectileCooldown: 0.8
   percentChanceToSpawn: 25
-  lowerChance: 0
-  upperChance: 25
+  lowerChance: 75
+  upperChance: 100
   bodyCollisionTargetLayers:
     serializedVersion: 2
     m_Bits: 64

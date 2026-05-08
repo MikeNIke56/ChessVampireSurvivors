@@ -171,6 +171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HexagonBullet
   speed: 3
+  lifeTime: 1
   targetLayers:
     serializedVersion: 2
     m_Bits: 64
