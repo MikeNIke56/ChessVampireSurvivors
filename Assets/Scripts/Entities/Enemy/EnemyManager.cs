@@ -90,7 +90,7 @@ public class EnemyManager : MonoBehaviour
         {
             if(enemy && enemy.gameObject.activeSelf == true)
             {
-                if (enemy.GetHealth() > 0)
+                if (enemy.GetCurHealth() > 0)
                     enemy.RunBehavior();
             }      
         }
@@ -112,7 +112,7 @@ public class EnemyManager : MonoBehaviour
         {
             if(enemy && enemy.gameObject.activeSelf == true)
             {
-                if(enemy.GetHealth() > 0)
+                if(enemy.GetCurHealth() > 0)
                 {
                     Vector2 separation = Vector2.zero;
                     List<EnemyBaseClass> neighbors = spatialGrid.GetNeighbors(enemy.transform.position);

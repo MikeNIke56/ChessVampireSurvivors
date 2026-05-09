@@ -29,11 +29,6 @@ public class EntityBaseClass : MonoBehaviour, IDamageable
         return Mathf.Atan2(point1.y - point2.y, point1.x - point2.x) * Mathf.Rad2Deg;
     }
 
-    public float GetHealth()
-    {
-        return curHealth;
-    }
-
     public virtual void TakeDamage(float damage)
     {
 
@@ -42,6 +37,28 @@ public class EntityBaseClass : MonoBehaviour, IDamageable
     public virtual void Die()
     {
 
+    }
+
+    public float GetCurHealth()
+    {
+        return curHealth;
+    }
+    public float GetMaxHealth()
+    {
+        return maxHealth;
+    }
+    public float GetMoveSpeed()
+    {
+        return moveSpeed;
+    }
+
+    public void SetMaxHealth(float health)
+    {
+        maxHealth = health;
+    }
+    public void SetMoveSpeed(float speed)
+    {
+        moveSpeed = speed;
     }
 }
 

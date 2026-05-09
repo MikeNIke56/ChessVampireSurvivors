@@ -64,4 +64,21 @@ public class WeaponBaseClass : MonoBehaviour
         transform.position = newPos;
     }
 
+    public float GetWeaponFireCooldown()
+    {
+        return fireCooldown;
+    }
+    public float GetWeaponAttack()
+    {
+        return attack;
+    }
+
+    public void SetWeaponCooldown(float cooldown)
+    {
+        fireCooldown = cooldown;
+    }
+    public void SetWeaponAttack(float damage)
+    {
+        attack = damage;
+    }
 }

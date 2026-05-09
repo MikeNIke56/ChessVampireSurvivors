@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3982844088988841712}
   - component: {fileID: 7928130075504633158}
   m_Layer: 0
-  m_Name: BuffManager
+  m_Name: UpgradesManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

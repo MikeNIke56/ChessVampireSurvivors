@@ -48,6 +48,8 @@ public class PlayerController : EntityBaseClass
     //primary weapon pivot
     public WeaponPivotPoint weaponPivotPoint;
 
+    public static PlayerController i { get; private set; }
+
 
     private void OnEnable()
     {
@@ -61,6 +63,16 @@ public class PlayerController : EntityBaseClass
 
     private void Awake()
     {
+        if (i != null)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            i = this;
+            DontDestroyOnLoad(gameObject);
+        }
+
         moveAction = InputSystem.actions.FindAction("Move");
         shootAction = InputSystem.actions.FindAction("Shoot");
         dodgeAction = InputSystem.actions.FindAction("Dodge");
@@ -208,5 +220,27 @@ public class PlayerController : EntityBaseClass
     public override void Die()
     {
         Debug.Log("player died");
+    }
+
+    public float GetHealthRegenSpeed()
+    {
+        return healthRegenSpeed;
+    }
+    public float GetMaxHealthRegenTime()
+    {
+        return maxHealthRegenTime;
+    }
+    public WeaponBaseClass GetPrimaryWeapon()
+    {
+        return primaryWeapon;
+    }
+
+    public void SetHealthRegenSpeed(float regenSpeed)
+    {
+        healthRegenSpeed = regenSpeed;
+    }
+    public void SetMaxHealthRegenTime(float regenTime)
+    {
+        maxHealthRegenTime = regenTime;
     }
 }
