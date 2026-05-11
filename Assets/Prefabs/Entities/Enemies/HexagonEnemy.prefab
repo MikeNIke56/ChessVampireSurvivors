@@ -329,7 +329,7 @@ PolygonCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 640
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -411,8 +411,8 @@ MonoBehaviour:
   maxCollisionAttackCooldown: 0.75
   maxProjectileCooldown: 0.55
   percentChanceToSpawn: 15
-  lowerChance: 60
-  upperChance: 75
+  lowerChance: 25
+  upperChance: 40
   bodyCollisionTargetLayers:
     serializedVersion: 2
     m_Bits: 64

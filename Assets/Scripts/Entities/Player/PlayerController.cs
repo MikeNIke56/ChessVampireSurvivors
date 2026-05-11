@@ -1,8 +1,9 @@
-using UnityEngine;
-using Terresquall;
-using UnityEngine.InputSystem;
 using System.Collections;
 using System.Collections.Generic;
+using Terresquall;
+using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 /**
 * player driver script
@@ -104,8 +105,13 @@ public class PlayerController : EntityBaseClass
         else if(moveVal.sqrMagnitude < .001f && currentPlayerStates.Contains(PlayerStates.Walking))
             currentPlayerStates.Remove(PlayerStates.Walking);
 
-        if (shootAction.WasPressedThisFrame())
+        //auto fire if AR
+        if (shootAction.IsPressed() && primaryWeapon && primaryWeapon is AR)
             Shoot();
+        //tap fire if anything else
+        else if(shootAction.WasPressedThisFrame() && primaryWeapon)
+            Shoot();
+
         if (dodgeAction.WasPressedThisFrame() && !currentPlayerStates.Contains(PlayerStates.Dodging) &&
             moveVal.sqrMagnitude > 0)
             Dodge();
@@ -166,7 +172,19 @@ public class PlayerController : EntityBaseClass
 
     public void Shoot()
     {
-        if (primaryWeapon && primaryWeapon.canFire == true)
+        //fire multiple times per press if Shotgun
+        if (primaryWeapon is Shotgun && 
+            primaryWeapon.canFire == true)
+        {
+            for (int i = 0; i < primaryWeapon.
+                gameObject.GetComponent<Shotgun>().rounds; i++)
+            {
+                primaryWeapon.Fire();
+            }
+            StartCoroutine(StartFireCooldown());
+        }
+        else if(primaryWeapon is Shotgun == false &&
+            primaryWeapon.canFire == true)
         {
             primaryWeapon.Fire();
             StartCoroutine(StartFireCooldown());
@@ -235,6 +253,10 @@ public class PlayerController : EntityBaseClass
         return primaryWeapon;
     }
 
+    public void SetCurHealth(float health)
+    {
+        curHealth = health;
+    }
     public void SetHealthRegenSpeed(float regenSpeed)
     {
         healthRegenSpeed = regenSpeed;

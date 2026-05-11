@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class TriangleEnemy : EnemyBaseClass
@@ -27,6 +28,8 @@ public class TriangleEnemy : EnemyBaseClass
 
     public override void RunBehavior()
     {
+        base.RunBehavior();
+
         LookAt(player.transform.position, offset);
 
         if (currentEnemyStates.Contains(EnemyStates.Shooting) &&

@@ -16,6 +16,7 @@ public class WeaponBaseClass : MonoBehaviour
     [SerializeField] protected float primaryWeaponSpawnOffset;
     [SerializeField] protected Transform fireOffset;
     public bool canFire = true;
+    [SerializeField] protected float bulletCone;
 
     //each weapon's respective bullet object
     public GameObject bulletObj;
@@ -25,12 +26,6 @@ public class WeaponBaseClass : MonoBehaviour
         SetUp();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     /**
     * all initializations to run once a weapon is created
     */
@@ -38,19 +33,27 @@ public class WeaponBaseClass : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         SetWeaponPivotOffset();
-
     }
 
     public virtual void Fire()
     {
         //loads in and fires bullet
-        GameObject bulletObjCopy = ObjectPoolingManager.SpawnObject(bulletObj, fireOffset.position, 
+        GameObject bulletObjCopy = ObjectPoolingManager.SpawnObject(bulletObj, fireOffset.position,
             fireOffset.rotation, ObjectPoolingManager.PoolType.Bullet);
 
         //sets the speed and damage of the bullet
         ProjectileBaseClass projectile = bulletObjCopy.GetComponent<ProjectileBaseClass>();
         projectile.SetDamage(attack);
-        Vector3 force = transform.right * projectile.GetSpeed();
+
+        //grab the bullet cone of the weapon and set the bullet's random
+        //direction
+        float spread = Random.Range(-bulletCone, bulletCone);
+        Vector3 direction = transform.right + transform.up * spread;
+
+        //keep consistent speed
+        direction.Normalize();
+
+        Vector3 force = direction * projectile.GetSpeed();
         projectile.GetRigidbody().AddForce(force, ForceMode2D.Impulse);
     }
 

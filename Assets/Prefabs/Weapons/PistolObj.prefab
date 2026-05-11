@@ -144,6 +144,7 @@ MonoBehaviour:
   primaryWeaponSpawnOffset: 1.25
   fireOffset: {fileID: 47980554126666012}
   canFire: 1
+  bulletCone: 0.1
   bulletObj: {fileID: 6438708033939589405, guid: 37cb8fed9509ef64fb19adcd71caf0b2, type: 3}
 --- !u!50 &1848966746434745556
 Rigidbody2D:

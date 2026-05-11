@@ -9,25 +9,36 @@ public class ProjectileBaseClass : MonoBehaviour
 {
     [Header("Base Variables")]
     protected Rigidbody2D rb;
-    private float damage;
+    protected float damage;
     [SerializeField] protected float speed;
     public float lifeTime;
+    protected int numEnemiesPenetrated;
+    public int penetrationValue;
 
     //the layers of objects this object is allowed to apply physics to
     public LayerMask targetLayers;
 
+    //bullet's previous velocity to restore back to after colliding with 
+    //an object
+    private Vector3 savedVelocity;
 
     protected void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
     }
 
+    private void FixedUpdate()
+    {
+        savedVelocity = rb.linearVelocity;
+    }
+
     protected void OnEnable()
     {
+        numEnemiesPenetrated = 0;
         StartCoroutine(StartLifetimeCountdown());
     }
 
-    protected void OnCollisionEnter2D(Collision2D collision)
+    protected virtual void OnCollisionEnter2D(Collision2D collision)
     {
         //if the collided object is on a layer we should interact with...
         if (IsInLayerMask(collision.gameObject, targetLayers))
@@ -36,17 +47,30 @@ public class ProjectileBaseClass : MonoBehaviour
 
             //and if it implements the IDamageable interface
             if (entity.TryGetComponent(out IDamageable myInterface))
+            {
                 //cause damage
                 entity.GetComponent<EntityBaseClass>().TakeDamage(damage);
 
-            Destroy(gameObject);
+                if(numEnemiesPenetrated >= penetrationValue)
+                {
+                    ObjectPoolingManager.ReturnObjectToPool(gameObject,
+                    ObjectPoolingManager.PoolType.Bullet);
+                }
+                else
+                    //projectile will "penetrate" a certain # of enemies 
+                    numEnemiesPenetrated++;
+
+                //restore bullet's velocity after hitting target
+                rb.linearVelocity = savedVelocity;
+            }
         }
     }
 
-    private IEnumerator StartLifetimeCountdown()
+    protected virtual IEnumerator StartLifetimeCountdown()
     {
         yield return new WaitForSecondsRealtime(lifeTime);
-        ObjectPoolingManager.ReturnObjectToPool(gameObject, ObjectPoolingManager.PoolType.Bullet);
+        ObjectPoolingManager.ReturnObjectToPool(gameObject, 
+            ObjectPoolingManager.PoolType.Bullet);
     }
 
     /**

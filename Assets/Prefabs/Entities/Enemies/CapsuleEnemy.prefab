@@ -137,7 +137,7 @@ CapsuleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 640
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -170,7 +170,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8595a3bc47f03544958f20d81f75e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CapsuleEnemy
-  defense: 0
   maxHealth: 0
   moveSpeed: 0
   currentEnemyStates: 
@@ -182,7 +181,6 @@ MonoBehaviour:
   percentChanceToSpawn: 0
   lowerChance: 0
   upperChance: 0
-  distanceToCheckForEnemies: 0
   bodyCollisionTargetLayers:
     serializedVersion: 2
     m_Bits: 64

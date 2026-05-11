@@ -138,7 +138,7 @@ PolygonCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 640
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -187,14 +187,14 @@ MonoBehaviour:
   maxHealth: 12
   moveSpeed: 55
   currentEnemyStates: 
-  collisionAttack: 12
-  projectileAttack: 25
+  collisionAttack: 4
+  projectileAttack: 8
   hitbox: {fileID: 8669180622835343222}
   maxCollisionAttackCooldown: 1
-  maxProjectileCooldown: 0.8
+  maxProjectileCooldown: 1.2
   percentChanceToSpawn: 25
-  lowerChance: 75
-  upperChance: 100
+  lowerChance: 0
+  upperChance: 25
   bodyCollisionTargetLayers:
     serializedVersion: 2
     m_Bits: 64

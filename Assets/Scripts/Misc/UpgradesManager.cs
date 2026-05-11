@@ -16,6 +16,12 @@ public class UpgradesManager : MonoBehaviour
         MoveSpeed,
         AttackSpeed
     }
+    public enum ItemTypes
+    {
+        HealthPickup,
+        Bomb,
+        Magnet
+    }
 
     [Header("UpgradesManager Variables")]
     //keeps track of the player's current stats buffs
