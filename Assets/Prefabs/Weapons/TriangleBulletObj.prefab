@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2517136681100889435}
   - component: {fileID: 4340565903536667624}
   - component: {fileID: 136544492525611038}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: TriangleBulletObj
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -137,7 +137,7 @@ CapsuleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 896
+    m_Bits: 1920
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2

@@ -540,7 +540,10 @@ MonoBehaviour:
   fireOffset: {fileID: 4684418702921242550}
   canFire: 1
   bulletCone: 0
+  currrentWeaponLevel: 1
   bulletObj: {fileID: 7003593241377929066, guid: e99faea75174939479df5d29dad40fd8, type: 3}
+  newPenetrationValue: 5
+  newBulletSpeed: 30
 --- !u!1 &7005561272253528634
 GameObject:
   m_ObjectHideFlags: 0

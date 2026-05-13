@@ -16,12 +16,15 @@ public class WeaponBaseClass : MonoBehaviour
     [SerializeField] protected float primaryWeaponSpawnOffset;
     [SerializeField] protected Transform fireOffset;
     public bool canFire = true;
-    [SerializeField] protected float bulletCone;
+    [SerializeField] protected float bulletSpread;
+
+    //keeps track of the player's current weapon level
+    public int currrentWeaponLevel = 1;
 
     //each weapon's respective bullet object
     public GameObject bulletObj;
 
-    private void Start()
+    protected virtual void Start()
     {
         SetUp();
     }
@@ -47,7 +50,7 @@ public class WeaponBaseClass : MonoBehaviour
 
         //grab the bullet cone of the weapon and set the bullet's random
         //direction
-        float spread = Random.Range(-bulletCone, bulletCone);
+        float spread = Random.Range(-bulletSpread, bulletSpread);
         Vector3 direction = transform.right + transform.up * spread;
 
         //keep consistent speed
@@ -65,6 +68,15 @@ public class WeaponBaseClass : MonoBehaviour
         Vector3 newPos = transform.position;
         newPos.x = primaryWeaponSpawnOffset; 
         transform.position = newPos;
+    }
+
+    /**
+     * upgrades weapon based on its current level
+     */
+    public virtual void UpgradeWeapon(int level)
+    {
+        currrentWeaponLevel++;
+        Debug.Log(name + " upgraded to " + currrentWeaponLevel);
     }
 
     public float GetWeaponFireCooldown()

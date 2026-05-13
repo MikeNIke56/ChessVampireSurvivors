@@ -296,8 +296,10 @@ MonoBehaviour:
   primaryWeaponSpawnOffset: 1.25
   fireOffset: {fileID: 498545954064793338}
   canFire: 1
-  bulletCone: 0
+  bulletSpread: 0
+  currrentWeaponLevel: 1
   bulletObj: {fileID: 8970891421891000659, guid: 6d75a766d4b5e10439f3fd3b5d864b4b, type: 3}
+  newDamageRadius: 2.5
 --- !u!1 &4950690212470110875
 GameObject:
   m_ObjectHideFlags: 0

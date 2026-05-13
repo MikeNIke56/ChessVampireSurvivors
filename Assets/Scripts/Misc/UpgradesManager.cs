@@ -16,6 +16,10 @@ public class UpgradesManager : MonoBehaviour
         MoveSpeed,
         AttackSpeed
     }
+    public enum AbilityUpgrades
+    {
+        OrbitingCircles
+    }
     public enum ItemTypes
     {
         HealthPickup,
@@ -26,6 +30,10 @@ public class UpgradesManager : MonoBehaviour
     [Header("UpgradesManager Variables")]
     //keeps track of the player's current stats buffs
     public Dictionary<StatsUpgrades, int> statsBuffRecord;
+
+    //keeps track of the player's current abilities
+    public List<AbilityBaseClass> currentAbilities;
+
 
     public float[] statIncreases = new float[5];
     private const int maxLevel = 5;
@@ -48,6 +56,7 @@ public class UpgradesManager : MonoBehaviour
     private void Start()
     {
         statsBuffRecord = new Dictionary<StatsUpgrades, int>();
+        currentAbilities = new List<AbilityBaseClass>();
         InitializeStartingStats();
     }
 
@@ -68,7 +77,7 @@ public class UpgradesManager : MonoBehaviour
      * chose
      */
     public void ApplyStatBuff(StatsUpgrades statType, bool carryOverLvls=false,
-        int lvlToApply=1)
+        int lvlsToAdd=1)
     {
         if (statsBuffRecord.TryGetValue(statType, out int value))
         {
@@ -81,7 +90,7 @@ public class UpgradesManager : MonoBehaviour
                         WeaponBaseClass weaponAtkCopy = PlayerController.i.
                             GetPrimaryWeapon();
 
-                        for(int i = 0; i < lvlToApply; i++)
+                        for(int i = 0; i < lvlsToAdd; i++)
                         {
                             weaponAtkCopy.SetWeaponAttack(weaponAtkCopy.
                                 GetWeaponAttack() * statIncreases[i]);
@@ -94,7 +103,7 @@ public class UpgradesManager : MonoBehaviour
                         WeaponBaseClass weaponCDCopy = PlayerController.i.
                             GetPrimaryWeapon();
 
-                        for (int i = 0; i < lvlToApply; i++)
+                        for (int i = 0; i < lvlsToAdd; i++)
                         {
                             weaponCDCopy.SetWeaponCooldown(weaponCDCopy.
                                 GetWeaponFireCooldown() / statIncreases[i]);
@@ -174,8 +183,45 @@ public class UpgradesManager : MonoBehaviour
                 }
                 else
                     Debug.Log(statType.ToString() + " is maxxed out");
-            }
-            
+            }      
         }
+    }
+
+    /**
+     * applies the appropriate buff to the player's currrent weapon
+     */
+    public void ApplyWeaponBuff(bool carryOverLvls = false, int lvlsToAdd=1)
+    {
+        WeaponBaseClass weaponCopy = PlayerController.i.GetPrimaryWeapon();
+
+        if (carryOverLvls == true)
+        {
+            for (int i = 0; i < lvlsToAdd; i++)
+            {
+                if (weaponCopy.currrentWeaponLevel < maxLevel-1)
+                    weaponCopy.UpgradeWeapon(1);
+                else if (weaponCopy.currrentWeaponLevel == maxLevel-1)
+                    weaponCopy.UpgradeWeapon(2);
+            }
+        }
+        else
+        {
+            if (weaponCopy.currrentWeaponLevel < maxLevel-1)
+                weaponCopy.UpgradeWeapon(lvlsToAdd);
+            else if(weaponCopy.currrentWeaponLevel == maxLevel - 1)
+                weaponCopy.UpgradeWeapon(lvlsToAdd + 1);
+        }
+    }
+
+    /**
+     * spawns in ability
+     */
+    public void SpawnAbility(GameObject ability)
+    {
+        //spawns in ability object
+        GameObject abilityObjCopy = Instantiate(ability, 
+            FindAnyObjectByType<PlayerController>().abilityPivotPoint.transform);
+
+        ability.GetComponent<AbilityBaseClass>().SetUp();
     }
 }

@@ -49,6 +49,11 @@ public class PlayerController : EntityBaseClass
     //primary weapon pivot
     public WeaponPivotPoint weaponPivotPoint;
 
+    //ability pivot
+    public GameObject abilityPivotPoint;
+
+    public GameObject w;
+
     public static PlayerController i { get; private set; }
 
 
@@ -162,6 +167,8 @@ public class PlayerController : EntityBaseClass
 
     public void Dodge()
     {
+        UpgradesManager.i.SpawnAbility(w);
+
         if (!currentPlayerStates.Contains(PlayerStates.Dodging))
         {
             currentPlayerStates.Add(PlayerStates.Dodging);
