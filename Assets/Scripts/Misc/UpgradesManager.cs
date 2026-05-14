@@ -218,10 +218,27 @@ public class UpgradesManager : MonoBehaviour
      */
     public void SpawnAbility(GameObject ability)
     {
-        //spawns in ability object
-        GameObject abilityObjCopy = Instantiate(ability, 
-            FindAnyObjectByType<PlayerController>().abilityPivotPoint.transform);
+        /*
+         * spawns in ability object
+         * have to spawn and parent seperately because we are attaching
+         * to a persistent (Dont Destroy On Load) object
+         */
+        GameObject abilityObjCopy = Instantiate(ability);
+        Transform playerTrans = PlayerController.i.abilityPivotPoint.transform;
 
-        ability.GetComponent<AbilityBaseClass>().SetUp();
+        abilityObjCopy.transform.SetParent(playerTrans);
+        abilityObjCopy.transform.localPosition = Vector3.zero;
+
+        abilityObjCopy.GetComponent<AbilityBaseClass>().SetUp();
+        currentAbilities.Add(abilityObjCopy.GetComponent<AbilityBaseClass>());
+    }
+
+    /**
+     * upgrades selected ability
+     */
+    public void UpgradeAbility(AbilityBaseClass ability)
+    {
+        if (ability.GetCurrentLevel() < maxLevel)
+            ability.UpgradeAbility(1);
     }
 }

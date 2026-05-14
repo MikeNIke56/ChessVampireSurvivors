@@ -10,7 +10,7 @@ public class RPGRocket : ProjectileBaseClass
     protected override void OnCollisionEnter2D(Collision2D collision)
     {
         //if the collided object is on a layer we should interact with...
-        if (IsInLayerMask(collision.gameObject, targetLayers))
+        if (LayerMaskChecker.i.IsInLayerMask(collision.gameObject, targetLayers))
         {
             GameObject entity = collision.gameObject;
 
@@ -44,7 +44,8 @@ public class RPGRocket : ProjectileBaseClass
         {
             foreach (Collider2D col in colliders)
             {
-                if (IsInLayerMask(col.gameObject, targetLayers))
+                if (LayerMaskChecker.i.IsInLayerMask(
+                    col.gameObject, targetLayers))
                 {
                     float proximity = (transform.position -
                         col.transform.position).magnitude;

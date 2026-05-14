@@ -23,27 +23,30 @@ public class DiamondEnemy : EnemyBaseClass
         float distFromPlayer = Vector2.Distance(transform.position, player.transform.position);
 
         //if the player is too far from us, then chase to get within range
-        if (distFromPlayer > maxChaseDistance)
+        if(!currentEnemyStates.Contains(EnemyStates.KnockedBack))
         {
-            if (!currentEnemyStates.Contains(EnemyStates.Chasing) &&
-                !currentEnemyStates.Contains(EnemyStates.Charging) &&
-                !currentEnemyStates.Contains(EnemyStates.ChargingAttackCooldown))
+            if (distFromPlayer > maxChaseDistance)
             {
-                currentEnemyStates.Add(EnemyStates.Chasing);
-            }
+                if (!currentEnemyStates.Contains(EnemyStates.Chasing) &&
+                    !currentEnemyStates.Contains(EnemyStates.Charging) &&
+                    !currentEnemyStates.Contains(EnemyStates.ChargingAttackCooldown))
+                {
+                    currentEnemyStates.Add(EnemyStates.Chasing);
+                }
 
-            if (currentEnemyStates.Contains(EnemyStates.Chasing))
-                ChasePlayer();
-        }
-        else if(distFromPlayer <= maxChaseDistance)
-        {
-            //if we're withing charging range
-            if (!currentEnemyStates.Contains(EnemyStates.Charging) &&
-                !currentEnemyStates.Contains(EnemyStates.ChargingAttackCooldown))
+                if (currentEnemyStates.Contains(EnemyStates.Chasing))
+                    ChasePlayer();
+            }
+            else if (distFromPlayer <= maxChaseDistance)
             {
-                currentEnemyStates.Add(EnemyStates.Charging);
-                currentEnemyStates.Remove(EnemyStates.Chasing);
-                StartCoroutine(ChargeAttack());
+                //if we're withing charging range
+                if (!currentEnemyStates.Contains(EnemyStates.Charging) &&
+                    !currentEnemyStates.Contains(EnemyStates.ChargingAttackCooldown))
+                {
+                    currentEnemyStates.Add(EnemyStates.Charging);
+                    currentEnemyStates.Remove(EnemyStates.Chasing);
+                    StartCoroutine(ChargeAttack());
+                }
             }
         }
     }

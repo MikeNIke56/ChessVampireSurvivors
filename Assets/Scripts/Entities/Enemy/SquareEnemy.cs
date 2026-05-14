@@ -21,9 +21,10 @@ public class SquareEnemy : EnemyBaseClass
 
     public override void HandleMovement()
     {
-        if (currentEnemyStates.Contains(EnemyStates.Chasing))
+        if (!currentEnemyStates.Contains(EnemyStates.KnockedBack))
         {
-            ChasePlayer();
-        }
+            if (currentEnemyStates.Contains(EnemyStates.Chasing))
+                ChasePlayer();
+        }   
     }
 }

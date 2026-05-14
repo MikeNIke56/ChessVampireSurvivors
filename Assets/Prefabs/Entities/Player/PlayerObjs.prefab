@@ -285,8 +285,9 @@ MonoBehaviour:
   dodgeDecaySpeed: 48
   maxHealthRegenTime: 5
   healthRegenSpeed: 1
-  primaryWeaponGameObject: {fileID: 3832298578810597381, guid: 1e1b05abb5722404e967a03acfd56b96, type: 3}
+  primaryWeaponGameObject: {fileID: 1713568026923195306, guid: 9e744153f1290a3449cbdf81a150d875, type: 3}
   weaponPivotPoint: {fileID: 2183233569898698503}
+  abilityPivotPoint: {fileID: 8059392899222047222}
   w: {fileID: 6816381485814025341, guid: db16be2e15a72cb4bb6a4aa5cef6ee1f, type: 3}
 --- !u!222 &1218563828118647351
 CanvasRenderer:

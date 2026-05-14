@@ -41,7 +41,7 @@ public class ProjectileBaseClass : MonoBehaviour
     protected virtual void OnCollisionEnter2D(Collision2D collision)
     {
         //if the collided object is on a layer we should interact with...
-        if (IsInLayerMask(collision.gameObject, targetLayers))
+        if (LayerMaskChecker.i.IsInLayerMask(collision.gameObject, targetLayers))
         {
             GameObject entity = collision.gameObject;
 
@@ -73,15 +73,7 @@ public class ProjectileBaseClass : MonoBehaviour
             ObjectPoolingManager.PoolType.Bullet);
     }
 
-    /**
-     * checks if object's layermask matches the one being checked
-     */
-    protected bool IsInLayerMask(GameObject obj, LayerMask mask)
-    {
-        return (mask.value & (1 << obj.layer)) != 0;
-    }
-
-    public float GetSpeed()
+    public virtual float GetSpeed()
     {
         return speed;
     }

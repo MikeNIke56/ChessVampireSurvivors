@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -12,17 +13,18 @@ public class OrbitCircleObj : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collider)
     {
         //if the collided object is on a layer we should interact with...
-        if (IsInLayerMask(collider.gameObject, targetLayers))
+        if (LayerMaskChecker.i.IsInLayerMask(collider.gameObject, targetLayers))
         {
             GameObject entity = collider.gameObject;
 
             //and if it implements the IDamageable interface
             if (entity.TryGetComponent(out IDamageable myInterface))
             {
-                //cause damage and apply knockback
-                entity.GetComponent<EntityBaseClass>().TakeDamage(damage);
+                EnemyBaseClass enemy = entity.GetComponent<EnemyBaseClass>();
 
-                
+                //cause damage and apply knockback
+                enemy.TakeDamage(damage);
+                StartCoroutine(enemy.ApplyKnockback(gameObject, knockBackAmnt));              
             }
             //enemy projectile
             else
@@ -34,13 +36,5 @@ public class OrbitCircleObj : MonoBehaviour
                     ObjectPoolingManager.PoolType.Bullet);
             }    
         }
-    }
-
-    /**
-     * checks if object's layermask matches the one being checked
-     */
-    protected bool IsInLayerMask(GameObject obj, LayerMask mask)
-    {
-        return (mask.value & (1 << obj.layer)) != 0;
     }
 }

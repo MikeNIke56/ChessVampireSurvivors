@@ -17,7 +17,9 @@ public class EnemyBaseClass : EntityBaseClass
         ProjectileAttackCooldown,
         Retreating,
         Charging,
-        ChargingAttackCooldown
+        ChargingAttackCooldown,
+        KnockedBack,
+        Slowed
     }
 
     [Header("Enemy Base Variables")]
@@ -89,12 +91,33 @@ public class EnemyBaseClass : EntityBaseClass
 
     }
 
-    /*
+    /**
      * applies force to itself to space itself from other enemies
      */
     public void ApplySeparation(Vector2 force)
     {
         separationForce = force;
+    }
+
+    /**
+     * knocks enemy back a bit
+     */
+    public IEnumerator ApplyKnockback(GameObject source, float knockbackAmnt)
+    {
+        currentEnemyStates.Add(EnemyStates.KnockedBack);
+
+        //direction from the hit source to the enemy
+        Vector2 direction = (transform.position -
+            source.transform.position).normalized;
+
+        //reset velocity so existing movement doesn't cancel knockback
+        rb.linearVelocity = Vector2.zero;
+
+        rb.AddForce(direction * knockbackAmnt, ForceMode2D.Impulse);
+
+        yield return new WaitForSecondsRealtime(.5f);
+
+        currentEnemyStates.Remove(EnemyStates.KnockedBack);
     }
 
     public override void TakeDamage(float damage)
@@ -125,7 +148,8 @@ public class EnemyBaseClass : EntityBaseClass
         if(!currentEnemyStates.Contains(EnemyStates.CollisionAttackCooldown))
         {
             //if the collided object is on a layer we should interact with...
-            if (IsInLayerMask(collision.gameObject, bodyCollisionTargetLayers))
+            if (LayerMaskChecker.i.
+                IsInLayerMask(collision.gameObject, bodyCollisionTargetLayers))
             {
                 GameObject entity = collision.gameObject;
 
@@ -146,7 +170,8 @@ public class EnemyBaseClass : EntityBaseClass
         if (!currentEnemyStates.Contains(EnemyStates.CollisionAttackCooldown))
         {
             //if the collided object is on a layer we should interact with...
-            if (IsInLayerMask(collision.gameObject, bodyCollisionTargetLayers))
+            if (LayerMaskChecker.i.
+                IsInLayerMask(collision.gameObject, bodyCollisionTargetLayers))
             {
                 GameObject entity = collision.gameObject;
 
@@ -160,14 +185,6 @@ public class EnemyBaseClass : EntityBaseClass
 
             }
         }
-    }
-
-    /**
-     * checks if object's layermask matches the one being checked
-     */
-    protected bool IsInLayerMask(GameObject obj, LayerMask mask)
-    {
-        return (mask.value & (1 << obj.layer)) != 0;
     }
 
     /**

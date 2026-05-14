@@ -7,7 +7,7 @@ public class OrbitingCircles : AbilityBaseClass
     [SerializeField] protected float orbitSpeedIncreaseAmnt;
 
     [SerializeField] GameObject circleObj;
-    private List<OrbitCircleObj> circles;
+    public List<OrbitCircleObj> circles;
     private int numOfCircles = 1;
 
     protected override void Update()
@@ -35,7 +35,7 @@ public class OrbitingCircles : AbilityBaseClass
         //spawns in circle object
         GameObject circleObjCopy = Instantiate(circleObj, transform);
 
-        circles.Add(circleObj.GetComponent<OrbitCircleObj>());
+        circles.Add(circleObjCopy.GetComponent<OrbitCircleObj>());
 
         //adjusts locations of circles
         switch (numOfCircles)

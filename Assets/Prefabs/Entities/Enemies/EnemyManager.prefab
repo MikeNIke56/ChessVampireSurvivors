@@ -50,10 +50,10 @@ MonoBehaviour:
   - {fileID: 3320494734956784958, guid: 3748f43cabc17f144b661294a7f62e95, type: 3}
   - {fileID: 5834869345390441621, guid: c64c7cc6cb80e1d4d81495c156e61cd6, type: 3}
   - {fileID: 8653881431099390299, guid: 807cb76ea53964046bb92b551c7856a1, type: 3}
-  maxNumOfEnemies: 100
-  maxNumOfEnemiesPerRound: 20
+  maxNumOfEnemies: 20
+  maxNumOfEnemiesPerRound: 10
   curNumOfEnemies: 0
-  spawnDelay: 0.5
+  spawnDelay: 0.3
   minSpawnDistance: 15
   maxSpawnDistance: 20
   isNextWaveOnCooldown: 0

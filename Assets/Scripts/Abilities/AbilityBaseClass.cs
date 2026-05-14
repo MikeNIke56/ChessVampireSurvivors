@@ -31,4 +31,9 @@ public class AbilityBaseClass : MonoBehaviour
         currentAbilityLevel++;
         Debug.Log(name + " upgraded to " + currentAbilityLevel);
     }
+
+    public int GetCurrentLevel()
+    {
+        return currentAbilityLevel;
+    }
 }

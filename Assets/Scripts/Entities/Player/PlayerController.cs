@@ -167,7 +167,11 @@ public class PlayerController : EntityBaseClass
 
     public void Dodge()
     {
-        UpgradesManager.i.SpawnAbility(w);
+        if(UpgradesManager.i.currentAbilities.Count == 0)
+            UpgradesManager.i.SpawnAbility(w);
+        else
+            UpgradesManager.i.UpgradeAbility(UpgradesManager.i.
+                currentAbilities[0]);
 
         if (!currentPlayerStates.Contains(PlayerStates.Dodging))
         {

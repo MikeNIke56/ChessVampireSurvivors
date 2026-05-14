@@ -47,25 +47,28 @@ public class TriangleEnemy : EnemyBaseClass
         float distFromPlayer = Vector2.Distance(transform.position, player.transform.position);
 
         //if the player is too far from us, then chase to get within range
-        if (distFromPlayer >= maxChaseDistance)
+        if (!currentEnemyStates.Contains(EnemyStates.KnockedBack))
         {
-            if (!currentEnemyStates.Contains(EnemyStates.Chasing))
+            if (distFromPlayer >= maxChaseDistance)
             {
-                currentEnemyStates.Add(EnemyStates.Chasing);
-                currentEnemyStates.Remove(EnemyStates.Retreating);
+                if (!currentEnemyStates.Contains(EnemyStates.Chasing))
+                {
+                    currentEnemyStates.Add(EnemyStates.Chasing);
+                    currentEnemyStates.Remove(EnemyStates.Retreating);
+                }
+                ChasePlayer();
             }
-            ChasePlayer();
-        }
-        //if the player is too close to us, then retreat until they are out of retreat range
-        else if (distFromPlayer <= retreatDistance)
-        {
-            if (!currentEnemyStates.Contains(EnemyStates.Retreating))
+            //if the player is too close to us, then retreat until they are out of retreat range
+            else if (distFromPlayer <= retreatDistance)
             {
-                currentEnemyStates.Add(EnemyStates.Retreating);
-                currentEnemyStates.Remove(EnemyStates.Chasing);
+                if (!currentEnemyStates.Contains(EnemyStates.Retreating))
+                {
+                    currentEnemyStates.Add(EnemyStates.Retreating);
+                    currentEnemyStates.Remove(EnemyStates.Chasing);
+                }
+                Retreat();
             }
-            Retreat();
-        }   
+        }     
     }
 
     protected override void ChasePlayer()
