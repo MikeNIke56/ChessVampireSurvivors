@@ -18,8 +18,7 @@ public class EnemyBaseClass : EntityBaseClass
         Retreating,
         Charging,
         ChargingAttackCooldown,
-        KnockedBack,
-        Slowed
+        KnockedBack
     }
 
     [Header("Enemy Base Variables")]

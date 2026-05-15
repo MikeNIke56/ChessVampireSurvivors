@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2120176796143103215}
   - component: {fileID: 42616200152555070}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: OrbitingCircles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47,3 +47,4 @@ MonoBehaviour:
   orbitSpeed: 75
   orbitSpeedIncreaseAmnt: 1.1
   circleObj: {fileID: 2113447306485321905, guid: f249cb10faf0c5e4f95de9b40ea70451, type: 3}
+  circles: []
