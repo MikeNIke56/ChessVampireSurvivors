@@ -13,12 +13,14 @@ public class Trail : MonoBehaviour
 
     public float trailDamage;
 
-    public void Setup(float startingTrailTime)
+    public void Setup(float startingTrailTime, float startingTrailDamage)
     {
         trailRend = GetComponent<TrailRenderer>();
         trailRend.time = startingTrailTime;
 
         edgeCollider = GetComponent<EdgeCollider2D>();
+
+        trailDamage = startingTrailDamage;
     }
 
     private void FixedUpdate()

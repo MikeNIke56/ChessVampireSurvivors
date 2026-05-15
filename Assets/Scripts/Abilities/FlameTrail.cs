@@ -22,7 +22,7 @@ public class FlameTrail : AbilityBaseClass
         base.SetUp();
 
         trail = GetComponentInChildren<Trail>();
-        trail.Setup(trailLifeTime);
+        trail.Setup(trailLifeTime, trailDamage);
     }
 
     public override void UpgradeAbility(int level)
